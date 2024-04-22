@@ -24,8 +24,8 @@ services:
       retries: 5
     restart: always
 
-  backend:
-    container_name: url-shortener-backend
+  app:
+    container_name: url-shortener-app
     build:
       context: ./app
     image: url-shortener/app

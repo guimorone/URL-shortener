@@ -9,8 +9,8 @@ python manage.py migrate --no-input
 echo "${0}: Config static files..."
 python manage.py collectstatic --no-input
 
-gunicorn backend.wsgi:application \
-  --name backend \
+gunicorn app.wsgi:application \
+  --name app \
   --bind 0.0.0.0:8000 \
   --timeout 3600 \
   --workers 4 \

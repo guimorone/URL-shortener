@@ -17,10 +17,9 @@ RUN apt-get update && apt-get install -y locales && rm -rf /var/lib/apt/lists/* 
 # System deps
 RUN pip install gunicorn "poetry==$POETRY_VERSION"
 
-WORKDIR /backend
+WORKDIR /app
 
 # Copy dependecies files.
-COPY pyproject.toml poetry.lock ./
 
 # Install production dependencies.
 RUN poetry config virtualenvs.create false \
