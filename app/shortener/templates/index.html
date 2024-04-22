@@ -1,3 +1,67 @@
 {% extends "base.html" %} {% block content %}
-<p>Forms aqui.</p>
+<form action="{% url 'shortener:index' %}" method="post">
+  {% csrf_token %}
+  <fieldset class="space-y-4">
+    <div class="space-y-2">
+      <label for="long_url" class="block text-sm font-medium leading-6 text-gray-900">Long URL</label>
+      <div class="relative rounded-md shadow-sm">
+        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+          <img
+            class="h-5 w-5"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAACGElEQVR4nO2Zy0rDQBSGv67VuvMFVHTlbeOiCEpbd30i9TGEWjfi1voM3kAR3VlofQQr9VrErioDJ3Ao2iZNzExCPgi0IZk5f3POmflTyMjISAJl4BBoAV05zOcaUCIBzAOXQH/EcQ7M4SibwIsE+gTsAMvAhBwrwC7Qlms6wAaOUQS+JMATYGrItXngVImZc1FEFcj5uCcH1FWaJVKEfjJempWSKsJjV+433cwKWxGIQBpAX1pz7CwCrxGIQJqCGeeDmDFBX6nuFEaEVSFltU4Ma7FBU6tJzBzLxGaxi4I9Ge+AmHmUiZciGGtatV/TAWPlWyaeDDlOTq3uZ1jgXSY3eyfNDHANXPgUUVVblFks0JAATJFqEQ9y/jaAiC/ZaFrBBNED1n8R8SDf/YooYpECUEm6CI3TIsoD9vRdauJAnsQ4IvKqO/27iFH2tOcjnUzNrCo3uCaL3bPqTpu27emowq6I2L9+iLP/brFB7OmwdCpIDTQkHbuydzIpWXTJFAWpiVgpRiCiMtAAEiliXWrC3J8Ie3r3RzqtqvOxs6C6k197egPc/1ITkzLOGxa4SIM93U6LPT1Kiz1tpsWe9tJiTz8jEGJE7Nt+g94KmVrO2NOaBGFeGAfFKWdXGrP9OiXC41wCqgf4I8Y5EUhxdpQYY0GdsKfjsKHEtKVmrNrTsE/GS7O+TXsaZQOoyarfjdueZmRkEJofMI0LxuO9LrIAAAAASUVORK5CYII="
+          />
+        </div>
+        <div class="flex items-center gap-x-4">
+          <input
+            type="url"
+            name="long_url"
+            id="long_url"
+            class="block w-full rounded-md border-0 py-1.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+            placeholder="example.com"
+          /><button
+            class="rounded-md bg-blue-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+            type="submit"
+          >
+            Shorten
+          </button>
+        </div>
+      </div>
+    </div>
+    {% if short_url %}
+    <div class="space-y-2">
+      <label for="short_url" class="block text-sm font-medium leading-6 text-gray-900">Shorten URL</label>
+      <div class="flex items-center gap-x-2">
+        <input
+          type="url"
+          name="short_url"
+          id="short_url"
+          class="block w-full rounded-md border-0 py-1.5 pl-2 sm:pl-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 disabled:bg-gray-200"
+          value="{{ short_url }}"
+          disabled
+        />
+        <button type="button" onclick="onClickCopy()">
+          <svg class="h-5 w-5 text-gray-900 hover:text-gray-800" viewBox="0 0 52 52" fill="currentColor">
+            <g>
+              <path
+                d="M17.4,11.6h17.3c0.9,0,1.6-0.7,1.6-1.6V6.8c0-2.6-2.1-4.8-4.7-4.8h-11c-2.6,0-4.7,2.2-4.7,4.8V10
+           C15.8,10.9,16.5,11.6,17.4,11.6z"
+                clip-rule="evenodd"
+                fill-rule="evenodd"
+              />
+              <path
+                d="M43.3,6h-1.6c-0.5,0-0.8,0.3-0.8,0.8V10c0,3.5-2.8,6.4-6.3,6.4H17.4c-3.5,0-6.3-2.9-6.3-6.4V6.8
+           c0-0.5-0.3-0.8-0.8-0.8H8.7C6.1,6,4,8.2,4,10.8v34.4C4,47.8,6.1,50,8.7,50h34.6c2.6,0,4.7-2.2,4.7-4.8V10.8C48,8.2,45.9,6,43.3,6z"
+                clip-rule="evenodd"
+                fill-rule="evenodd"
+              />
+            </g>
+          </svg>
+        </button>
+      </div>
+    </div>
+    {% endif %} {% if error_message %}
+    <p class="text-red-500 font-semibold text-sm">{{ error_message }}</p>
+    {% endif %}
+  </fieldset>
+</form>
 {% endblock %}
