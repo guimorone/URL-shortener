@@ -29,10 +29,13 @@ DEBUG = env.bool('DJANGO_DEBUG_MODE', default=True)
 ALLOWED_HOSTS = ['*']
 APPEND_SLASH = False
 
+APP_NAME = 'App'
+
 
 # Application definition
 
 INSTALLED_APPS = [
+    'shortener.apps.ShortenerConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
