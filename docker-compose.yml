@@ -1,9 +1,3 @@
-x-app-commom: &app-commom
-  restart: always
-  tty: true
-  ports:
-    - 8000:8000
-
 services:
   postgres_db:
     container_name: url-shortener-database
@@ -11,6 +5,7 @@ services:
     env_file:
       - .env
     environment:
+      PGDATA: /var/lib/postgresql/data
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
@@ -19,19 +14,23 @@ services:
     volumes:
       - postgres_db:/var/lib/postgresql/data
     healthcheck:
-      test: ['CMD', 'pg_isready', '-U', $DB_NAME]
+      test: ['CMD', 'pg_isready', '-d', $DB_NAME, '-U', $DB_USER]
       interval: 5s
       retries: 5
     restart: always
-
   app:
     container_name: url-shortener-app
     build:
       context: ./app
     image: url-shortener/app
+    restart: always
+    tty: true
+    ports:
+      - 8000:8000
     depends_on:
       - postgres_db
-    <<: *app-commom
+    links:
+      - postgres_db:db
 
 volumes:
   postgres_db:
